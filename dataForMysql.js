@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const filePath = `./festo_compact_cylinder.json`;
-const filePathOriginalKey='./festo_compact_cylinder_original_key.json'
+const filePathOriginalKey = `./festo_compact_cylinder_original_key.json`;
 
 let mysqlColumns={}
 let mysqlColumnsComments={}
@@ -19,8 +19,6 @@ fs.readFile(filePath, 'utf8', (err, data) => {
         console.log(jsonData.length)
         mysqlColumns=jsonData.reduce((acc,curr)=>({...acc,...curr}),{})
 
-        console.log(Object.keys(mysqlColumns))
-        // console.log(mysqlColumns)
 
         function createObjectWithEmptyValues(obj) {
             let newObj = {};
@@ -34,6 +32,9 @@ fs.readFile(filePath, 'utf8', (err, data) => {
 
         let templateColumns=createObjectWithEmptyValues(mysqlColumns)
         console.log(templateColumns)
+        let dataForMysql=jsonData.map(item=>({...templateColumns,...item}))
+
+        fs.writeFileSync('dataForMysql.json',JSON.stringify(dataForMysql))
 
 
 
@@ -56,11 +57,24 @@ fs.readFile(filePathOriginalKey, 'utf8', (err, data) => {
         const jsonData = JSON.parse(data);
         
         
-        console.log(jsonData.length)
         mysqlColumnsComments=jsonData.reduce((acc,curr)=>({...acc,...curr}),{})
 
-        console.log(Object.keys(mysqlColumnsComments))
-        // console.log(mysqlColumns)
+
+        function createObjectWithEmptyValues(obj) {
+            let newObj = {};
+            for (let key in obj) {
+              if (obj.hasOwnProperty(key)) {
+                newObj[key] = '';
+              }
+            }
+            return newObj;
+          }
+
+        let templateColumnsComments=createObjectWithEmptyValues(mysqlColumnsComments)
+        console.log(templateColumnsComments)
+        
+
+
 
         
 
@@ -70,3 +84,6 @@ fs.readFile(filePathOriginalKey, 'utf8', (err, data) => {
         console.error('Failed to parse JSON:', filePath, parseErr);
     }
 });
+
+
+

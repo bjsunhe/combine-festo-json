@@ -1,4 +1,5 @@
-CREATE TABLE ProductSpecifications (
+```sql
+CREATE TABLE festo_compact_cylinder (
     stroke VARCHAR(255) COMMENT 'Stroke',
     pistonDiameter VARCHAR(255) COMMENT 'Piston diameter',
     pistonRodThread VARCHAR(255) COMMENT 'Piston rod thread',
@@ -52,3 +53,4 @@ CREATE TABLE ProductSpecifications (
     basedOnStandard VARCHAR(255) COMMENT 'Based on standard',
     cleanroomClass VARCHAR(255) COMMENT 'Cleanroom class'
 );
+```
